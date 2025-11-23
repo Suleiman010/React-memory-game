@@ -7,3 +7,5 @@
 `npx create-vite@latest`
 
 ### 2. clean the project files
+
+### 3. create the useGameLogic.js hook
