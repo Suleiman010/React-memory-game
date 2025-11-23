@@ -1,0 +1,40 @@
+# This is the name of your workflow
+# It appears in GitHub Actions dashboard so you can identify it easily
+name: my first yaml workflow
+
+# Define when the workflow should run
+# Here, it runs whenever code is pushed to the "main" branch
+on:
+  push:
+    branches:
+      - main # Only trigger CI/CD for main, not feature branches (good practice)
+
+# Jobs section: defines one or more independent sets of steps
+jobs:
+  deploy: # Name of the job, can be anything meaningful
+    runs-on:
+      ubuntu-latest # Runner environment (a Linux VM). Even if you code on Mac, this is standard
+      # Ubuntu runners are fast, clean, and reproducible
+
+    steps: # List of sequential commands/actions that the runner executes
+      - uses: actions/checkout@v2 # Prebuilt GitHub Action
+        # Checks out your repository code onto the runner
+        # Without this, CI cannot see your project files
+
+      - name: Install dependencies # Optional: naming steps makes logs readable
+        run:
+          npm install # Installs all Node.js dependencies from package.json
+          # Ubuntu runner has Node.js preinstalled
+
+      - name: Build project
+        run:
+          npm run build # Builds your React app into production-ready static files
+          # Resulting build will be in the 'build' folder
+
+      - name: Show build folder contents # Optional extra step for learning
+        run:
+          ls -la build # Lets you see what files were created after build
+          # Useful for understanding CI environment
+
+      - name: Finish
+        run: echo "CI pipeline finished successfully!" # A simple step to signal the end
